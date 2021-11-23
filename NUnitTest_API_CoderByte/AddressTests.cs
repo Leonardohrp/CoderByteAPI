@@ -1,12 +1,13 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace NUnitTest_API_CoderByte
 {
-    public class Tests
+    public class AddressTests
     {
         [SetUp]
         public void Setup()
         {
+
         }
 
         [Test]
