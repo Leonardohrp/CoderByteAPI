@@ -1,0 +1,2 @@
+﻿Criar banco de dados - Via cmd como administrador
+	docker run -e "ACCEPT_EULA=Y" --name "CoderByteDataBase" -e "SA_PASSWORD=password@2021CoderByte" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-CU13-ubuntu-20.04

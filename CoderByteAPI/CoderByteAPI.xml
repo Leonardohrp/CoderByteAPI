@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CoderByteAPI</name>
+    </assembly>
+    <members>
+        <member name="T:CoderByteAPI.Controllers.AddressController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:CoderByteAPI.Controllers.AddressController.DeleteAddressById(System.Int32,System.String)">
+            <summary>
+            Feature #05: Delete an user
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="T:CoderByteAPI.Controllers.UserController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:CoderByteAPI.Controllers.UserController.CreateUserWithAddress(CoderByteAPI.Models.CreateUser)">
+            <summary>
+            Feature #01: User sign up
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CoderByteAPI.Controllers.UserController.GetUserById(System.Int32)">
+            <summary>
+            Feature #02: List user by its ID
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CoderByteAPI.Controllers.UserController.GetListUsersByName(System.String)">
+            <summary>
+            Feature #03: List user by its name
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CoderByteAPI.Controllers.UserController.UpdateUserById(CoderByteAPI.Models.UpdateUser,System.Int32)">
+            <summary>
+            Feature #04: Change user's information
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CoderByteAPI.Controllers.UserController.DeleteUserById(System.Int32)">
+            <summary>
+            Feature #05: Delete an user
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:CoderByteAPI.Controllers.UserController.GetAddressListByUserId(System.Int32)">
+            <summary>
+            Feature #06: List every address a user have
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
