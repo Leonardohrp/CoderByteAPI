@@ -1,5 +1,6 @@
 ﻿using CoderByteAPI.Helpers;
 using CoderByteAPI.Models;
+using CoderByteAPI.Models.Enums;
 using CoderByteAPI.Repositorys;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace CoderByteAPI.Services
             _repo = repo;
         }
 
-        public async Task<int> CreateAddressWithUserAssociation(CreateAddress createAddress, int userId)
+        public async Task CreateAddressWithUserAssociation(CreateAddress createAddress, int userId)
         {
             var viaCepResponse = await ViaCEPIntegration.GetCompleteAddress(createAddress.ZipCode);
 
@@ -34,23 +35,21 @@ namespace CoderByteAPI.Services
                 Gia = viaCepResponse.Gia,
                 Ddd = viaCepResponse.Ddd,
                 Siafi = viaCepResponse.Siafi,
-                Categoria = createAddress.Category
+                Categoria = createAddress.Categoria
             };
 
             var isAddressCreated = await _repo.CreateAddressWithUserAssociation(address);
 
             if (isAddressCreated != 1)
-                throw new Exception("Erro ao criar endereço. Verifique o Log");
-
-            return isAddressCreated;
+                throw new Exception("Erro ao criar endereço.");
         }
 
-        public async Task<bool> DeleteAddressById(int idUser, string ziCode)
+        public async Task DeleteAddressByUserIdAndZipCode(int idUser, string ziCode)
         {
-            if (await _repo.DeleteAddressById(idUser, ziCode) != 1)
-                throw new Exception("Exclusão de endereço falhou.");
+            var isAddressDeleted = await _repo.DeleteAddressByIdAndZipCode(idUser, ziCode);
 
-            return true;
+            if (isAddressDeleted != 1)
+                throw new Exception("Exclusão de endereço falhou.");
         }
 
         public async Task<List<Address>> GetAddressListByUserId(int IdUser)

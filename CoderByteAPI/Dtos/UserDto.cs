@@ -1,17 +1,16 @@
-﻿using System;
+﻿using CoderByteAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CoderByteAPI.Models
+namespace CoderByteAPI.Dtos
 {
-    public class User
+    public class UserDto
     {
-        public int IdUser { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public int Age { get; set; }
         public string? Phone { get; set; }
-        public List<Address>? Address { get; set; }
     }
 }

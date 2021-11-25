@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,17 +26,18 @@ namespace CoderByteAPI.Controllers
         /// <summary>
         /// Feature #05: Delete an user
         /// </summary>
+        /// <param name="zipCode">Formatação: 99999-999</param>      
         /// <returns> </returns>
-        [HttpDelete("idUser/ziCode")]
+        [HttpDelete("{idUser}/{zipCode}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> DeleteAddressById(int idUser, string ziCode)
+        public async Task<IActionResult> DeleteAddressByUserIdAndZipCode([Required] int idUser, [Required] string zipCode)
         {
             try
             {
-                bool isAddressrDeleted = await _service.DeleteAddressById(idUser, ziCode);
+                await _service.DeleteAddressByUserIdAndZipCode(idUser, zipCode);
 
-                return Ok(new { Success = isAddressrDeleted, Message = "Endereço deletado com sucesso." });
+                return Ok(new { Success = true, Message = "Endereço deletado com sucesso." });
             }
             catch (Exception ex)
             {

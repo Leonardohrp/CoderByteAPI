@@ -10,6 +10,6 @@ namespace CoderByteAPI.Repositorys
     {
         Task<int> CreateAddressWithUserAssociation(Address createAddress);
         Task<List<Address>> GetAddressListByUserId(int IdUser);
-        Task<int> DeleteAddressById(int idUser, string ziCode);
+        Task<int> DeleteAddressByIdAndZipCode(int idUser, string ziCode);
     }
 }

@@ -140,14 +140,14 @@ namespace CoderByteAPI.Repositorys
             }
         }
 
-        public async Task<int> UpdateUserById(UpdateUser updateUser, int id)
+        public async Task<User> UpdateUserById(UpdateUser updateUser, int id)
         {
             var connectionString = _dataContext.GetConnection();
 
-            int isUserUpdated = 0;
+            var userUpdated = new User();
 
-            User user = await GetUserById(id);
-
+            var user = await GetUserById(id);
+             
             using (var connnection = new SqlConnection(connectionString))
             {
                 try
@@ -158,13 +158,15 @@ namespace CoderByteAPI.Repositorys
                                             [Email] = @Email,
                                             [DateOfBirth] = @DateOfBirth,
                                             [Phone] = @Phone
-                                                WHERE IdUser = @Id";
-                    isUserUpdated = await connnection.ExecuteAsync(query,
+                                                WHERE IdUser = @Id;
+
+                                  SELECT * FROM Users WHERE IdUser = @Id;";
+                    userUpdated = await connnection.QueryFirstAsync<User>(query,
                             new
                             {
                                 Name = string.IsNullOrEmpty(updateUser.Name) ? user.Name : updateUser.Name,
                                 Email = string.IsNullOrEmpty(updateUser.Email) ? user.Email : updateUser.Email,
-                                DateOfBirth = string.IsNullOrEmpty(updateUser.DateOfBirth.ToString()) ? user.DateOfBirth : updateUser.DateOfBirth,
+                                DateOfBirth = !updateUser.DateOfBirth.HasValue ? user.DateOfBirth : updateUser.DateOfBirth,
                                 Phone = string.IsNullOrEmpty(updateUser.Phone) ? user.Phone : updateUser.Phone,
                                 Id = id
                             });
@@ -177,7 +179,7 @@ namespace CoderByteAPI.Repositorys
                 {
                     connnection.Close();
                 }
-                return isUserUpdated;
+                return userUpdated;
             }
         }
     }

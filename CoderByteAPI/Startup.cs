@@ -1,4 +1,5 @@
 using API_LES.Data;
+using AutoMapper;
 using CoderByteAPI.Repositorys;
 using CoderByteAPI.Services;
 using Microsoft.AspNetCore.Builder;
@@ -48,9 +49,11 @@ namespace CoderByteAPI
                 c.IncludeXmlComments(xmlCommentsFileFullPath);
             });
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddTransient<IDataContext, DataContext>();
-
+            
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserRepository, UserRepository>();
 

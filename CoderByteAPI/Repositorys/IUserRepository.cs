@@ -10,7 +10,7 @@ namespace CoderByteAPI.Repositorys
     {
         Task<User> GetUserById(int id);
         Task<int> CreateUser(CreateUser createUser);
-        Task<int> UpdateUserById(UpdateUser updateUser, int id);
+        Task<User> UpdateUserById(UpdateUser updateUser, int id);
         Task<int> DeleteUserById(int id);
         Task<List<User>> GetListUsersByName(string name);
     }

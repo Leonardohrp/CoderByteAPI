@@ -19,13 +19,13 @@ namespace CoderByteAPI.Services
             _addressSerice = addressService;
         }
 
-        public async Task<bool> CreateUserWithAddress(CreateUser createUser)
+        public async Task<int> CreateUserWithAddress(CreateUser createUser)
         {
-            UserFieldsValidator.ValidateFields(createUser);
+            UserFieldsValidator.ValidateCreateUserFields(createUser);
 
-            var userId = await _repo.CreateUser(createUser);
+            int userId = await _repo.CreateUser(createUser);
 
-            if (userId == 0)
+            if (userId == 0) 
                 throw new Exception("Criação de usuário falhou. Tente novamente");
 
             foreach (var address in createUser.AddressInformations)
@@ -33,17 +33,14 @@ namespace CoderByteAPI.Services
                 await _addressSerice.CreateAddressWithUserAssociation(address, userId);
             }
 
-            return true;
+            return userId;
         }
 
-        public async Task<bool> DeleteUserById(int id)
+        public async Task DeleteUserById(int id)
         {
-            await GetUserById(id);
-
-            if (await _repo.DeleteUserById(id) != 1)
-                throw new Exception("Exclusão de usuário falhou.");
-
-            return true;
+            var isUserDeleted = await _repo.DeleteUserById(id);
+            if (isUserDeleted == 0)
+                throw new Exception("Id não corresponde a nenhum usuário.");
         }
 
         public async Task<List<Address>> GetAddressListByUserId(int id)
@@ -60,15 +57,6 @@ namespace CoderByteAPI.Services
             var userList = await _repo.GetListUsersByName(name);
             if (userList.Count == 0)
                 throw new Exception("Usuário não cadastrado.");
-
-            foreach (var user in userList)
-            {
-                var addressList = await _addressSerice.GetAddressListByUserId(user.IdUser);
-                if (addressList.Count == 0)
-                    throw new Exception("Nenhum endereço foi cadastrado para esse usuário.");
-
-                user.Address = addressList;
-            }
             
             return userList;
         }
@@ -79,28 +67,17 @@ namespace CoderByteAPI.Services
             if (user == null)
                 throw new Exception("Usuário não cadastrado.");
 
-            var addressList = await _addressSerice.GetAddressListByUserId(id);
-            if(addressList.Count == 0)
-                throw new Exception("Nenhum endereço foi cadastrado para esse usuário.");
-
-            user.Address = addressList;
-
             return user;
         }
 
-        public async Task<bool> UpdateUserById(UpdateUser updateUser, int id)
+        public async Task<User> UpdateUserById(UpdateUser updateUser, int id)
         {
-            if (string.IsNullOrEmpty(id.ToString()))
-                throw new Exception("Id do usuário vazio ou nulo.");
-
-            await GetUserById(id);
-
             var userUpdated = await _repo.UpdateUserById(updateUser, id);
 
-            if (userUpdated == 0)
+            if (userUpdated == null)
                 throw new Exception("Atualização do usuário falhou.");
 
-            return true;
+            return userUpdated; 
         }
     }
 }

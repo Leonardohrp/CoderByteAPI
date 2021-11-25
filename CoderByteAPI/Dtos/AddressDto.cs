@@ -4,12 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CoderByteAPI.Models
+namespace CoderByteAPI.Dtos
 {
-    public class Address
+    public class AddressDto
     {
-        public int IdAddress { get; set; }
-        public int IdUser { get; set; }
         public string Cep { get; set; }
         public string Logradouro { get; set; }
         public string Complemento { get; set; }
@@ -20,6 +18,6 @@ namespace CoderByteAPI.Models
         public string Gia { get; set; }
         public string Ddd { get; set; }
         public string Siafi { get; set; }
-        public CategoryEnum Categoria { get; set; }
+        public string Categoria { get; set; }
     }
 }

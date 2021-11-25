@@ -8,8 +8,8 @@ namespace CoderByteAPI.Services
 {
     public interface IAddressService
     {
-        Task<int> CreateAddressWithUserAssociation(CreateAddress createAddress, int IdUser);
+        Task CreateAddressWithUserAssociation(CreateAddress createAddress, int IdUser);
         Task<List<Address>> GetAddressListByUserId(int IdUser);
-        Task<bool> DeleteAddressById(int idUser, string ziCode);
+        Task DeleteAddressByUserIdAndZipCode(int idUser, string ziCode);
     }
 }

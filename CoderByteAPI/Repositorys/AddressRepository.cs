@@ -22,7 +22,7 @@ namespace CoderByteAPI.Repositorys
         {
             var connectionString = _dataContext.GetConnection();
 
-            int isUserCreated = 0;
+            int isAddressCreated = 0;
 
             using (var connnection = new SqlConnection(connectionString))
             {
@@ -58,7 +58,7 @@ namespace CoderByteAPI.Repositorys
                                                             @Categoria
                                                         );
                                 ";
-                    isUserCreated = await connnection.ExecuteAsync(query,
+                    isAddressCreated = await connnection.ExecuteAsync(query,
                             new
                             {
                                 IdUser = address.IdUser,
@@ -83,11 +83,11 @@ namespace CoderByteAPI.Repositorys
                 {
                     connnection.Close();
                 }
-                return isUserCreated;
+                return isAddressCreated;
             }
         }
 
-        public async Task<int> DeleteAddressById(int idUser, string zipCode)
+        public async Task<int> DeleteAddressByIdAndZipCode(int idUser, string zipCode)
         {
             var connectionString = _dataContext.GetConnection();
 
