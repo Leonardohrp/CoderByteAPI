@@ -20,54 +20,77 @@ namespace NUnitTest_API_CoderByte
         }
 
         [Test]
-        public async Task Test1()
+        public void GetUserById_Success()
         {
             // Arrange
-            var addressList = new List<Address>()
-            { 
-                new Address()
-                {
-                    IdAddress = 1,
-                    Cep = "18020234",
-                    Logradouro = "",
-                    Complemento = "Casa de esquina",
-                    Bairro = "Bairro",
-                    Localidade = "Localidade",
-                    Uf = "SP",
-                    Ibge = "1",
-                    Gia = "2",
-                    Ddd = "3",
-                    Siafi = "4",
-                    Categoria = CategoryEnum.Commercial
-                }
-            };
-
             var user = new User()
             {
                 IdUser = 1,
                 Name = "Leonardo",
                 Email = "leonardo@hotmail.com",
                 DateOfBirth = DateTime.Now,
-                Phone = "15991187263",
-                Address = addressList
+                Phone = "15991187263"
             };
 
             var mockUserRepository = new Mock<IUserRepository>();
             mockUserRepository.Setup(m => m.GetUserById(user.IdUser).Result).Returns(user).Verifiable();
 
             var mockAddressService = new Mock<IAddressService>();
-            mockAddressService.Setup(m => m.GetAddressListByUserId(user.IdUser).Result).Returns(addressList);
 
             IUserService userService = new UserService(mockUserRepository.Object, mockAddressService.Object);
 
             // Act
-            var userExpected = await userService.GetUserById(user.IdUser);
+            var userExpected = userService.GetUserById(user.IdUser).Result;
+
+            // Assert
+            mockUserRepository.Verify();
+            Assert.IsNotNull(userExpected);
+            Assert.AreEqual(userExpected, user);
+        }
+
+        [Test]
+        public void CreateUserWithAddress_Success()
+        {
+            // Arrange
+            var createAddressList = new List<CreateAddress>
+            {
+                new CreateAddress
+                {
+                    ZipCode = "18020234",
+                    Categoria = CategoryEnum.Residential
+                }
+            };
+
+            var createUser = new CreateUser()
+            {
+                Name = "Leonardo",
+                Email = "leonardo@hotmail.com",
+                DateOfBirth = DateTime.Now,
+                Phone = "15991187263",
+                AddressInformations = createAddressList
+            };
+
+            var mockUserRepository = new Mock<IUserRepository>();
+            mockUserRepository.Setup(m => m.CreateUser(createUser).Result).Returns(1).Verifiable();
+
+            var mockAddressService = new Mock<IAddressService>();
+            mockAddressService.Setup(m => m.CreateAddressWithUserAssociation(createAddressList[0], 1)).Verifiable();
+
+            IUserService userService = new UserService(mockUserRepository.Object, mockAddressService.Object);
+
+            // Act
+            var isUserCreated = userService.CreateUserWithAddress(createUser).Result;
 
             // Assert
             mockUserRepository.Verify();
             mockAddressService.Verify();
-            Assert.IsNotNull(userExpected);
-            Assert.AreEqual(userExpected, user);
+            Assert.IsNotNull(isUserCreated);
+            Assert.AreEqual(isUserCreated, 1);
         }
+
+        //GetListUsersByName
+        //UpdateUserById
+        //DeleteUserById
+        //GetAddressListByUserId
     }
 }
